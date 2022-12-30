@@ -11,15 +11,11 @@ data class TvShow(
     val backdropPath: String?,
     @SerializedName("first_air_date")
     val firstAirDate: String?,
-    @SerializedName("genre_ids")
-    val genreIds: List<Int>?,
     @PrimaryKey
     @SerializedName("id")
     val id: Int,
     @SerializedName("name")
     val name: String?,
-    @SerializedName("origin_country")
-    val originCountry: List<String>?,
     @SerializedName("original_language")
     val originalLanguage: String?,
     @SerializedName("original_name")
