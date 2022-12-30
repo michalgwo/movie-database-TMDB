@@ -1,5 +1,8 @@
-package com.example.moviedatabase.data
+package com.example.moviedatabase.data.api
 
+import com.example.moviedatabase.data.model.artist.ArtistList
+import com.example.moviedatabase.data.model.movie.MovieList
+import com.example.moviedatabase.data.model.tvshow.TvShowList
 import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query
