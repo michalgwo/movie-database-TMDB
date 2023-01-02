@@ -6,9 +6,9 @@ import com.example.moviedatabase.data.repos.artist.datasourceinterfaces.ArtistRe
 import retrofit2.Response
 
 class ArtistRemoteDataSource(
-    private val TMDBService: TMDBService,
+    private val tmdbService: TMDBService,
     private val apiKey: String
     ): ArtistRemoteDataSourceInterface {
 
-    override suspend fun getArtists(): Response<ArtistList> = TMDBService.getPopularArtists(apiKey)
+    override suspend fun getArtists(): Response<ArtistList> = tmdbService.getPopularArtists(apiKey)
 }
