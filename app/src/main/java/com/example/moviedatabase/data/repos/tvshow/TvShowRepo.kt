@@ -12,27 +12,30 @@ class TvShowRepo(
     private val localDataSource: TvShowLocalDataSourceInterface,
     private val cacheDataSource: TvShowCacheDataSourceInterface
 ): TvShowRepoInterface {
-    override suspend fun getTvShows(): List<TvShow>? {
+    override suspend fun getTvShows(): List<TvShow> {
         return getTvShowsFromCache()
     }
 
-    override suspend fun updateTvShows(): List<TvShow>? {
+    override suspend fun updateTvShows(): List<TvShow> {
         val tvShows = getTvShowsFromApi()
-        localDataSource.deleteAllTvShows()
-        localDataSource.saveTvShows(tvShows)
-        cacheDataSource.saveTvShows(tvShows)
+
+        if (tvShows.isNotEmpty()) {
+            localDataSource.deleteAllTvShows()
+            localDataSource.saveTvShows(tvShows)
+            cacheDataSource.saveTvShows(tvShows)
+        }
         return tvShows
     }
 
     private suspend fun getTvShowsFromApi(): List<TvShow> {
-        lateinit var tvShows: List<TvShow>
+        val tvShows = ArrayList<TvShow>()
 
         try {
             val response = remoteDataSource.getTvShows()
             val body = response.body()
 
             if (body != null) {
-                tvShows = body.tvShows
+                tvShows.addAll(body.tvShows)
             }
         } catch (e: Exception) {
             Log.d("MyTag", "Error: ${e.message}")
@@ -42,16 +45,16 @@ class TvShowRepo(
     }
 
     private suspend fun getTvShowsFromDb(): List<TvShow> {
-        lateinit var tvShows: List<TvShow>
+        val tvShows = ArrayList<TvShow>()
 
         try {
-            tvShows = localDataSource.getTvShows()
+            tvShows.addAll(localDataSource.getTvShows())
         } catch (e: Exception) {
             Log.d("MyTag", "Error: ${e.message}")
         }
 
         if (tvShows.isEmpty()) {
-            tvShows = getTvShowsFromApi()
+            tvShows.addAll(getTvShowsFromApi())
             localDataSource.saveTvShows(tvShows)
         }
 
@@ -59,16 +62,16 @@ class TvShowRepo(
     }
 
     private suspend fun getTvShowsFromCache(): List<TvShow> {
-        lateinit var tvShows: List<TvShow>
+        val tvShows = ArrayList<TvShow>()
 
         try {
-            tvShows = cacheDataSource.getTvShows()
+            tvShows.addAll(cacheDataSource.getTvShows())
         } catch (e: Exception) {
             Log.d("MyTag", "Error: ${e.message}")
         }
 
         if (tvShows.isEmpty()) {
-            tvShows = getTvShowsFromDb()
+            tvShows.addAll(getTvShowsFromDb())
             cacheDataSource.saveTvShows(tvShows)
         }
 

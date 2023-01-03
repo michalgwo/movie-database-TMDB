@@ -12,27 +12,30 @@ class MovieRepo(
     private val localDataSource: MovieLocalDataSourceInterface,
     private val cacheDataSource: MovieCacheDataSourceInterface
 ): MovieRepoInterface {
-    override suspend fun getMovies(): List<Movie>? {
+    override suspend fun getMovies(): List<Movie> {
         return getMoviesFromCache()
     }
 
-    override suspend fun updateMovies(): List<Movie>? {
+    override suspend fun updateMovies(): List<Movie> {
         val movies = getMoviesFromApi()
-        localDataSource.deleteAllMovies()
-        localDataSource.saveMovies(movies)
-        cacheDataSource.saveMovies(movies)
+
+        if (movies.isNotEmpty()) {
+            localDataSource.deleteAllMovies()
+            localDataSource.saveMovies(movies)
+            cacheDataSource.saveMovies(movies)
+        }
         return movies
     }
 
     private suspend fun getMoviesFromApi(): List<Movie> {
-        lateinit var movies: List<Movie>
+        val movies = ArrayList<Movie>()
 
         try {
             val response = remoteDataSource.getMovies()
             val body = response.body()
 
             if (body != null) {
-                movies = body.movies
+                movies.addAll(body.movies)
             }
         } catch (e: Exception) {
             Log.d("MyTag", "Error: ${e.message}")
@@ -42,16 +45,16 @@ class MovieRepo(
     }
 
     private suspend fun getMoviesFromDb(): List<Movie> {
-        lateinit var movies: List<Movie>
+        val movies = ArrayList<Movie>()
 
         try {
-            movies = localDataSource.getMovies()
+            movies.addAll(localDataSource.getMovies())
         } catch (e: Exception) {
             Log.d("MyTag", "Error: ${e.message}")
         }
 
         if (movies.isEmpty()) {
-            movies = getMoviesFromApi()
+            movies.addAll(getMoviesFromApi())
             localDataSource.saveMovies(movies)
         }
 
@@ -59,16 +62,16 @@ class MovieRepo(
     }
 
     private suspend fun getMoviesFromCache(): List<Movie> {
-        lateinit var movies: List<Movie>
+        val movies = ArrayList<Movie>()
 
         try {
-            movies = cacheDataSource.getMovies()
+            movies.addAll(cacheDataSource.getMovies())
         } catch (e: Exception) {
             Log.d("MyTag", "Error: ${e.message}")
         }
 
         if (movies.isEmpty()) {
-            movies = getMoviesFromDb()
+            movies.addAll(getMoviesFromDb())
             cacheDataSource.saveMovies(movies)
         }
 

@@ -12,27 +12,30 @@ class ArtistRepo(
     private val localDataSource: ArtistLocalDataSourceInterface,
     private val cacheDataSource: ArtistCacheDataSourceInterface
 ): ArtistRepoInterface {
-    override suspend fun getArtists(): List<Artist>? {
+    override suspend fun getArtists(): List<Artist> {
         return getArtistsFromCache()
     }
 
-    override suspend fun updateArtists(): List<Artist>? {
+    override suspend fun updateArtists(): List<Artist> {
         val artists = getArtistsFromApi()
-        localDataSource.deleteAllArtists()
-        localDataSource.saveArtists(artists)
-        cacheDataSource.saveArtists(artists)
+
+        if (artists.isNotEmpty()) {
+            localDataSource.deleteAllArtists()
+            localDataSource.saveArtists(artists)
+            cacheDataSource.saveArtists(artists)
+        }
         return artists
     }
 
     private suspend fun getArtistsFromApi(): List<Artist> {
-        lateinit var artists: List<Artist>
+        val artists = ArrayList<Artist>()
 
         try {
             val response = remoteDataSource.getArtists()
             val body = response.body()
 
             if (body != null) {
-                artists = body.artists
+                artists.addAll(body.artists)
             }
         } catch (e: Exception) {
             Log.d("MyTag", "Error: ${e.message}")
@@ -42,16 +45,16 @@ class ArtistRepo(
     }
 
     private suspend fun getArtistsFromDb(): List<Artist> {
-        lateinit var artists: List<Artist>
+        val artists = ArrayList<Artist>()
 
         try {
-            artists = localDataSource.getArtists()
+            artists.addAll(localDataSource.getArtists())
         } catch (e: Exception) {
             Log.d("MyTag", "Error: ${e.message}")
         }
 
         if (artists.isEmpty()) {
-            artists = getArtistsFromApi()
+            artists.addAll(getArtistsFromApi())
             localDataSource.saveArtists(artists)
         }
 
@@ -59,16 +62,16 @@ class ArtistRepo(
     }
 
     private suspend fun getArtistsFromCache(): List<Artist> {
-        lateinit var artists: List<Artist>
+        val artists = ArrayList<Artist>()
 
         try {
-            artists = cacheDataSource.getArtists()
+            artists.addAll(cacheDataSource.getArtists())
         } catch (e: Exception) {
             Log.d("MyTag", "Error: ${e.message}")
         }
 
         if (artists.isEmpty()) {
-            artists = getArtistsFromDb()
+            artists.addAll(getArtistsFromDb())
             cacheDataSource.saveArtists(artists)
         }
 
