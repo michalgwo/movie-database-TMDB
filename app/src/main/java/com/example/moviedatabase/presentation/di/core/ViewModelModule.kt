@@ -6,6 +6,7 @@ import com.example.moviedatabase.presentation.artists.ArtistsViewModel
 import com.example.moviedatabase.presentation.artists.ArtistsViewModelFactory
 import com.example.moviedatabase.presentation.di.artist.ArtistScope
 import com.example.moviedatabase.presentation.di.movie.MovieScope
+import com.example.moviedatabase.presentation.di.tvshow.TvShowScope
 import com.example.moviedatabase.presentation.movies.MoviesViewModel
 import com.example.moviedatabase.presentation.movies.MoviesViewModelFactory
 import com.example.moviedatabase.presentation.tvshows.TvShowsViewModel
@@ -27,7 +28,7 @@ class ViewModelModule(private val owner: ViewModelStoreOwner) {
         return ViewModelProvider(owner, factory)[ArtistsViewModel::class.java]
     }
 
-    @ArtistScope
+    @TvShowScope
     @Provides
     fun provideTvShowsViewModel(factory: TvShowsViewModelFactory): TvShowsViewModel {
         return ViewModelProvider(owner, factory)[TvShowsViewModel::class.java]

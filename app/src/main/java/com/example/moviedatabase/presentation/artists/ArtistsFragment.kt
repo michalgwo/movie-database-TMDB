@@ -1,20 +1,91 @@
 package com.example.moviedatabase.presentation.artists
 
+import android.annotation.SuppressLint
+import android.content.Context
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import androidx.core.view.MenuHost
+import androidx.core.view.MenuProvider
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.moviedatabase.R
+import com.example.moviedatabase.data.model.artist.Artist
 import com.example.moviedatabase.databinding.FragmentArtistsBinding
+import com.example.moviedatabase.presentation.App
+import com.example.moviedatabase.presentation.di.core.ViewModelModule
+import javax.inject.Inject
 
 class ArtistsFragment : Fragment() {
     private lateinit var binding: FragmentArtistsBinding
+    private lateinit var adapter: ArtistsAdapter
+    @Inject
+    lateinit var factory: ArtistsViewModelFactory
+    @Inject
+    lateinit var viewModel: ArtistsViewModel
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        (requireContext().applicationContext as App).createArtistSubcomponent(ViewModelModule(this)).inject(this)
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_artists, container, false)
 
+        createMenu()
+        initRecyclerView()
+
         return binding.root
+    }
+
+    private fun initRecyclerView() {
+        binding.rvArtists.layoutManager = LinearLayoutManager(requireContext().applicationContext)
+        adapter = ArtistsAdapter()
+        binding.rvArtists.adapter = adapter
+        displayArtistList()
+    }
+
+    private fun displayArtistList() {
+        binding.pbArtists.visibility = View.VISIBLE
+
+        viewModel.getArtists().observe(viewLifecycleOwner) {
+            updateRecyclerView(it)
+        }
+    }
+
+    private fun updateArtists() {
+        binding.pbArtists.visibility = View.VISIBLE
+
+        viewModel.updateArtists().observe(viewLifecycleOwner) {
+            updateRecyclerView(it)
+        }
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    private fun updateRecyclerView(list: List<Artist>?) {
+        if (list != null) {
+            adapter.updateList(list)
+            adapter.notifyDataSetChanged()
+        }
+        binding.pbArtists.visibility = View.GONE
+    }
+
+    private fun createMenu() {
+        (requireActivity() as MenuHost).addMenuProvider(object: MenuProvider {
+            override fun onCreateMenu(menu: Menu, menuInflater: MenuInflater) {
+                menuInflater.inflate(R.menu.update_menu, menu)
+            }
+
+            override fun onMenuItemSelected(menuItem: MenuItem): Boolean {
+                when (menuItem.itemId) {
+                    R.id.bUpdate -> {
+                        updateArtists()
+                        return true
+                    }
+                }
+
+                return false
+            }
+        }, viewLifecycleOwner)
     }
 }
