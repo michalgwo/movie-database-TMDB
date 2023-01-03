@@ -4,7 +4,6 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy.REPLACE
 import androidx.room.Query
-import com.example.moviedatabase.data.model.movie.Movie
 import com.example.moviedatabase.data.model.tvshow.TvShow
 
 @Dao
@@ -15,6 +14,6 @@ interface TvShowDao {
     @Query("DELETE FROM popular_tv_shows")
     suspend fun deleteAllTvShows()
 
-    @Query("SELECT * FROM popular_tv_shows")
+    @Query("SELECT * FROM popular_tv_shows ORDER BY popularity DESC")
     suspend fun getTvShows(): List<TvShow>
 }
