@@ -2,7 +2,10 @@ package com.example.moviedatabase.presentation
 
 import android.app.Application
 import com.example.moviedatabase.BuildConfig
-import com.example.moviedatabase.presentation.di.*
+import com.example.moviedatabase.presentation.di.artist.ArtistSubcomponent
+import com.example.moviedatabase.presentation.di.core.*
+import com.example.moviedatabase.presentation.di.movie.MovieSubcomponent
+import com.example.moviedatabase.presentation.di.tvshow.TvShowSubcomponent
 
 class App: Application() {
     private lateinit var appComponent: AppComponent
@@ -17,5 +20,7 @@ class App: Application() {
             .build()
     }
 
-    fun getAppComponent(): AppComponent = appComponent
+    fun createMovieSubcomponent(): MovieSubcomponent = appComponent.movieSubcomponentFactory().create()
+    fun createArtistSubcomponent(): ArtistSubcomponent = appComponent.artistSubcomponentFactory().create()
+    fun createTvShowSubcomponent(): TvShowSubcomponent = appComponent.tvShowSubcomponentFactory().create()
 }

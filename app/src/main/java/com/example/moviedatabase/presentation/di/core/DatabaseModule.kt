@@ -1,4 +1,4 @@
-package com.example.moviedatabase.presentation.di
+package com.example.moviedatabase.presentation.di.core
 
 import android.content.Context
 import androidx.room.Room

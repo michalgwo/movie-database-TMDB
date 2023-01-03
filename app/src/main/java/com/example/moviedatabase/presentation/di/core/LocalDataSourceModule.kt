@@ -1,4 +1,4 @@
-package com.example.moviedatabase.presentation.di
+package com.example.moviedatabase.presentation.di.core
 
 import com.example.moviedatabase.data.db.ArtistDao
 import com.example.moviedatabase.data.db.MovieDao

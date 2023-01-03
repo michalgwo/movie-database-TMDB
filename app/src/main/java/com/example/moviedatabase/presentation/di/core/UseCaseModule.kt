@@ -1,4 +1,4 @@
-package com.example.moviedatabase.presentation.di
+package com.example.moviedatabase.presentation.di.core
 
 import com.example.moviedatabase.domain.repointerfaces.ArtistRepoInterface
 import com.example.moviedatabase.domain.repointerfaces.MovieRepoInterface
