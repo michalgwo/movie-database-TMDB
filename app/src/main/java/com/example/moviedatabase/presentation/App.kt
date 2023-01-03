@@ -20,7 +20,7 @@ class App: Application() {
             .build()
     }
 
-    fun createMovieSubcomponent(): MovieSubcomponent = appComponent.movieSubcomponentFactory().create()
-    fun createArtistSubcomponent(): ArtistSubcomponent = appComponent.artistSubcomponentFactory().create()
-    fun createTvShowSubcomponent(): TvShowSubcomponent = appComponent.tvShowSubcomponentFactory().create()
+    fun createMovieSubcomponent(viewModelModule: ViewModelModule): MovieSubcomponent = appComponent.movieSubcomponentFactory().create(viewModelModule)
+    fun createArtistSubcomponent(viewModelModule: ViewModelModule): ArtistSubcomponent = appComponent.artistSubcomponentFactory().create(viewModelModule)
+    fun createTvShowSubcomponent(viewModelModule: ViewModelModule): TvShowSubcomponent = appComponent.tvShowSubcomponentFactory().create(viewModelModule)
 }
