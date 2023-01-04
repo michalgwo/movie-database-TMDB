@@ -1,6 +1,7 @@
 package com.example.moviedatabase.presentation
 
 import android.app.Application
+import androidx.lifecycle.ViewModelStoreOwner
 import com.example.moviedatabase.BuildConfig
 import com.example.moviedatabase.presentation.di.artist.ArtistSubcomponent
 import com.example.moviedatabase.presentation.di.core.*
@@ -13,14 +14,19 @@ class App: Application() {
     override fun onCreate() {
         super.onCreate()
 
-        appComponent = DaggerAppComponent.builder()
-            .appModule(AppModule(applicationContext))
-            .networkModule(NetworkModule(BuildConfig.API_BASE_URL))
-            .remoteDataSourceModule(RemoteDataSourceModule(BuildConfig.API_KEY))
-            .build()
+        appComponent = DaggerAppComponent.factory().create(
+            BuildConfig.API_KEY,
+            BuildConfig.API_BASE_URL,
+            applicationContext
+        )
     }
 
-    fun createMovieSubcomponent(viewModelModule: ViewModelModule): MovieSubcomponent = appComponent.movieSubcomponentFactory().create(viewModelModule)
-    fun createArtistSubcomponent(viewModelModule: ViewModelModule): ArtistSubcomponent = appComponent.artistSubcomponentFactory().create(viewModelModule)
-    fun createTvShowSubcomponent(viewModelModule: ViewModelModule): TvShowSubcomponent = appComponent.tvShowSubcomponentFactory().create(viewModelModule)
+    fun createMovieSubcomponent(o: ViewModelStoreOwner): MovieSubcomponent =
+        appComponent.movieSubcomponentFactory().create(o)
+
+    fun createArtistSubcomponent(o: ViewModelStoreOwner): ArtistSubcomponent =
+        appComponent.artistSubcomponentFactory().create(o)
+
+    fun createTvShowSubcomponent(o: ViewModelStoreOwner): TvShowSubcomponent =
+        appComponent.tvShowSubcomponentFactory().create(o)
 }

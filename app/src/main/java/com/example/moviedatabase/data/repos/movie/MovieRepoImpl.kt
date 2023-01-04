@@ -2,16 +2,19 @@ package com.example.moviedatabase.data.repos.movie
 
 import android.util.Log
 import com.example.moviedatabase.data.model.movie.Movie
-import com.example.moviedatabase.data.repos.movie.datasourceinterfaces.MovieCacheDataSourceInterface
-import com.example.moviedatabase.data.repos.movie.datasourceinterfaces.MovieLocalDataSourceInterface
-import com.example.moviedatabase.data.repos.movie.datasourceinterfaces.MovieRemoteDataSourceInterface
-import com.example.moviedatabase.domain.repointerfaces.MovieRepoInterface
+import com.example.moviedatabase.data.repos.movie.datasourceinterfaces.MovieCacheDataSource
+import com.example.moviedatabase.data.repos.movie.datasourceinterfaces.MovieLocalDataSource
+import com.example.moviedatabase.data.repos.movie.datasourceinterfaces.MovieRemoteDataSource
+import com.example.moviedatabase.domain.repointerfaces.MovieRepo
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class MovieRepo(
-    private val remoteDataSource: MovieRemoteDataSourceInterface,
-    private val localDataSource: MovieLocalDataSourceInterface,
-    private val cacheDataSource: MovieCacheDataSourceInterface
-): MovieRepoInterface {
+@Singleton
+class MovieRepoImpl @Inject constructor(
+    private val remoteDataSource: MovieRemoteDataSource,
+    private val localDataSource: MovieLocalDataSource,
+    private val cacheDataSource: MovieCacheDataSource
+): MovieRepo {
     override suspend fun getMovies(): List<Movie> {
         return getMoviesFromCache()
     }

@@ -1,8 +1,9 @@
 package com.example.moviedatabase.domain.usecases
 
 import com.example.moviedatabase.data.model.movie.Movie
-import com.example.moviedatabase.domain.repointerfaces.MovieRepoInterface
+import com.example.moviedatabase.domain.repointerfaces.MovieRepo
+import javax.inject.Inject
 
-class UpdateMoviesUseCase(private val repo: MovieRepoInterface) {
+class UpdateMoviesUseCase @Inject constructor(private val repo: MovieRepo) {
     suspend fun execute(): List<Movie>? = repo.updateMovies()
 }

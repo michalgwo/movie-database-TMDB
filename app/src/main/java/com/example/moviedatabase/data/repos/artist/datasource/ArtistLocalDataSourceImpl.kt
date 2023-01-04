@@ -2,12 +2,15 @@ package com.example.moviedatabase.data.repos.artist.datasource
 
 import com.example.moviedatabase.data.db.ArtistDao
 import com.example.moviedatabase.data.model.artist.Artist
-import com.example.moviedatabase.data.repos.artist.datasourceinterfaces.ArtistLocalDataSourceInterface
+import com.example.moviedatabase.data.repos.artist.datasourceinterfaces.ArtistLocalDataSource
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class ArtistLocalDataSource(private val dao: ArtistDao): ArtistLocalDataSourceInterface {
+@Singleton
+class ArtistLocalDataSourceImpl @Inject constructor(private val dao: ArtistDao): ArtistLocalDataSource {
     override suspend fun saveArtists(artists: List<Artist>) {
         CoroutineScope(IO).launch {
             dao.saveArtists(artists)

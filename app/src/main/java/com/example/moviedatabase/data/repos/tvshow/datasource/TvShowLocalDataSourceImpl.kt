@@ -2,12 +2,15 @@ package com.example.moviedatabase.data.repos.tvshow.datasource
 
 import com.example.moviedatabase.data.db.TvShowDao
 import com.example.moviedatabase.data.model.tvshow.TvShow
-import com.example.moviedatabase.data.repos.tvshow.datasourceinterfaces.TvShowLocalDataSourceInterface
+import com.example.moviedatabase.data.repos.tvshow.datasourceinterfaces.TvShowLocalDataSource
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.launch
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class TvShowLocalDataSource(private val dao: TvShowDao): TvShowLocalDataSourceInterface {
+@Singleton
+class TvShowLocalDataSourceImpl @Inject constructor(private val dao: TvShowDao): TvShowLocalDataSource {
     override suspend fun saveTvShows(tvShows: List<TvShow>) {
         CoroutineScope(IO).launch {
             dao.saveTvShows(tvShows)

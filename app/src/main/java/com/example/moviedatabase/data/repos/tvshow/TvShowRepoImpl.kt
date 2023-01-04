@@ -2,16 +2,19 @@ package com.example.moviedatabase.data.repos.tvshow
 
 import android.util.Log
 import com.example.moviedatabase.data.model.tvshow.TvShow
-import com.example.moviedatabase.data.repos.tvshow.datasourceinterfaces.TvShowCacheDataSourceInterface
-import com.example.moviedatabase.data.repos.tvshow.datasourceinterfaces.TvShowLocalDataSourceInterface
-import com.example.moviedatabase.data.repos.tvshow.datasourceinterfaces.TvShowRemoteDataSourceInterface
-import com.example.moviedatabase.domain.repointerfaces.TvShowRepoInterface
+import com.example.moviedatabase.data.repos.tvshow.datasourceinterfaces.TvShowCacheDataSource
+import com.example.moviedatabase.data.repos.tvshow.datasourceinterfaces.TvShowLocalDataSource
+import com.example.moviedatabase.data.repos.tvshow.datasourceinterfaces.TvShowRemoteDataSource
+import com.example.moviedatabase.domain.repointerfaces.TvShowRepo
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class TvShowRepo(
-    private val remoteDataSource: TvShowRemoteDataSourceInterface,
-    private val localDataSource: TvShowLocalDataSourceInterface,
-    private val cacheDataSource: TvShowCacheDataSourceInterface
-): TvShowRepoInterface {
+@Singleton
+class TvShowRepoImpl @Inject constructor(
+    private val remoteDataSource: TvShowRemoteDataSource,
+    private val localDataSource: TvShowLocalDataSource,
+    private val cacheDataSource: TvShowCacheDataSource
+): TvShowRepo {
     override suspend fun getTvShows(): List<TvShow> {
         return getTvShowsFromCache()
     }

@@ -2,16 +2,19 @@ package com.example.moviedatabase.data.repos.artist
 
 import android.util.Log
 import com.example.moviedatabase.data.model.artist.Artist
-import com.example.moviedatabase.data.repos.artist.datasourceinterfaces.ArtistCacheDataSourceInterface
-import com.example.moviedatabase.data.repos.artist.datasourceinterfaces.ArtistLocalDataSourceInterface
-import com.example.moviedatabase.data.repos.artist.datasourceinterfaces.ArtistRemoteDataSourceInterface
-import com.example.moviedatabase.domain.repointerfaces.ArtistRepoInterface
+import com.example.moviedatabase.data.repos.artist.datasourceinterfaces.ArtistCacheDataSource
+import com.example.moviedatabase.data.repos.artist.datasourceinterfaces.ArtistLocalDataSource
+import com.example.moviedatabase.data.repos.artist.datasourceinterfaces.ArtistRemoteDataSource
+import com.example.moviedatabase.domain.repointerfaces.ArtistRepo
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class ArtistRepo(
-    private val remoteDataSource: ArtistRemoteDataSourceInterface,
-    private val localDataSource: ArtistLocalDataSourceInterface,
-    private val cacheDataSource: ArtistCacheDataSourceInterface
-): ArtistRepoInterface {
+@Singleton
+class ArtistRepoImpl @Inject constructor(
+    private val remoteDataSource: ArtistRemoteDataSource,
+    private val localDataSource: ArtistLocalDataSource,
+    private val cacheDataSource: ArtistCacheDataSource
+): ArtistRepo {
     override suspend fun getArtists(): List<Artist> {
         return getArtistsFromCache()
     }

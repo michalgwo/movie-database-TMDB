@@ -1,33 +1,22 @@
 package com.example.moviedatabase.presentation.di.core
 
-import com.example.moviedatabase.data.api.TMDBService
-import com.example.moviedatabase.data.repos.artist.datasource.ArtistRemoteDataSource
-import com.example.moviedatabase.data.repos.artist.datasourceinterfaces.ArtistRemoteDataSourceInterface
-import com.example.moviedatabase.data.repos.movie.datasource.MovieRemoteDataSource
-import com.example.moviedatabase.data.repos.movie.datasourceinterfaces.MovieRemoteDataSourceInterface
-import com.example.moviedatabase.data.repos.tvshow.datasource.TvShowRemoteDataSource
-import com.example.moviedatabase.data.repos.tvshow.datasourceinterfaces.TvShowRemoteDataSourceInterface
+import com.example.moviedatabase.data.repos.artist.datasource.ArtistRemoteDataSourceImpl
+import com.example.moviedatabase.data.repos.artist.datasourceinterfaces.ArtistRemoteDataSource
+import com.example.moviedatabase.data.repos.movie.datasource.MovieRemoteDataSourceImpl
+import com.example.moviedatabase.data.repos.movie.datasourceinterfaces.MovieRemoteDataSource
+import com.example.moviedatabase.data.repos.tvshow.datasource.TvShowRemoteDataSourceImpl
+import com.example.moviedatabase.data.repos.tvshow.datasourceinterfaces.TvShowRemoteDataSource
+import dagger.Binds
 import dagger.Module
-import dagger.Provides
-import javax.inject.Singleton
 
 @Module
-class RemoteDataSourceModule(private val apiKey: String) {
-    @Singleton
-    @Provides
-    fun provideMovieRemoteDataSource(tmdbService: TMDBService): MovieRemoteDataSourceInterface {
-        return MovieRemoteDataSource(tmdbService, apiKey)
-    }
+abstract class RemoteDataSourceModule {
+    @Binds
+    abstract fun bindMovieRemoteDataSource(impl: MovieRemoteDataSourceImpl): MovieRemoteDataSource
 
-    @Singleton
-    @Provides
-    fun provideArtistRemoteDataSource(tmdbService: TMDBService): ArtistRemoteDataSourceInterface {
-        return ArtistRemoteDataSource(tmdbService, apiKey)
-    }
+    @Binds
+    abstract fun bindArtistRemoteDataSource(impl: ArtistRemoteDataSourceImpl): ArtistRemoteDataSource
 
-    @Singleton
-    @Provides
-    fun provideTvShowRemoteDataSource(tmdbService: TMDBService): TvShowRemoteDataSourceInterface {
-        return TvShowRemoteDataSource(tmdbService, apiKey)
-    }
+    @Binds
+    abstract fun bindTvShowRemoteDataSource(impl: TvShowRemoteDataSourceImpl): TvShowRemoteDataSource
 }

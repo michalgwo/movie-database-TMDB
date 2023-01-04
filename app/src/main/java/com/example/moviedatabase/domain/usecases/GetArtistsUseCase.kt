@@ -1,8 +1,9 @@
 package com.example.moviedatabase.domain.usecases
 
 import com.example.moviedatabase.data.model.artist.Artist
-import com.example.moviedatabase.domain.repointerfaces.ArtistRepoInterface
+import com.example.moviedatabase.domain.repointerfaces.ArtistRepo
+import javax.inject.Inject
 
-class GetArtistsUseCase(private val repo: ArtistRepoInterface) {
+class GetArtistsUseCase @Inject constructor(private val repo: ArtistRepo) {
     suspend fun execute(): List<Artist>? = repo.getArtists()
 }

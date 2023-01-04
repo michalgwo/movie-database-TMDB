@@ -4,8 +4,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.moviedatabase.domain.usecases.GetMoviesUseCase
 import com.example.moviedatabase.domain.usecases.UpdateMoviesUseCase
+import com.example.moviedatabase.presentation.di.movie.MovieScope
+import javax.inject.Inject
 
-class MoviesViewModelFactory(
+@MovieScope
+class MoviesViewModelFactory @Inject constructor(
     private val getMoviesUseCase: GetMoviesUseCase,
     private val updateMoviesUseCase: UpdateMoviesUseCase
     ): ViewModelProvider.Factory {

@@ -1,9 +1,12 @@
 package com.example.moviedatabase.data.repos.artist.datasource
 
 import com.example.moviedatabase.data.model.artist.Artist
-import com.example.moviedatabase.data.repos.artist.datasourceinterfaces.ArtistCacheDataSourceInterface
+import com.example.moviedatabase.data.repos.artist.datasourceinterfaces.ArtistCacheDataSource
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class ArtistCacheDataSource: ArtistCacheDataSourceInterface {
+@Singleton
+class ArtistCacheDataSourceImpl @Inject constructor(): ArtistCacheDataSource {
     private var artistList = ArrayList<Artist>()
 
     override suspend fun getArtists(): List<Artist> {

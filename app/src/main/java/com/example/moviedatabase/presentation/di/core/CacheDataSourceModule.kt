@@ -1,32 +1,22 @@
 package com.example.moviedatabase.presentation.di.core
 
-import com.example.moviedatabase.data.repos.artist.datasource.ArtistCacheDataSource
-import com.example.moviedatabase.data.repos.artist.datasourceinterfaces.ArtistCacheDataSourceInterface
-import com.example.moviedatabase.data.repos.movie.datasource.MovieCacheDataSource
-import com.example.moviedatabase.data.repos.movie.datasourceinterfaces.MovieCacheDataSourceInterface
-import com.example.moviedatabase.data.repos.tvshow.datasource.TvShowCacheDataSource
-import com.example.moviedatabase.data.repos.tvshow.datasourceinterfaces.TvShowCacheDataSourceInterface
+import com.example.moviedatabase.data.repos.artist.datasource.ArtistCacheDataSourceImpl
+import com.example.moviedatabase.data.repos.artist.datasourceinterfaces.ArtistCacheDataSource
+import com.example.moviedatabase.data.repos.movie.datasource.MovieCacheDataSourceImpl
+import com.example.moviedatabase.data.repos.movie.datasourceinterfaces.MovieCacheDataSource
+import com.example.moviedatabase.data.repos.tvshow.datasource.TvShowCacheDataSourceImpl
+import com.example.moviedatabase.data.repos.tvshow.datasourceinterfaces.TvShowCacheDataSource
+import dagger.Binds
 import dagger.Module
-import dagger.Provides
-import javax.inject.Singleton
 
 @Module
-class CacheDataSourceModule {
-    @Singleton
-    @Provides
-    fun provideMovieCacheDataSource(): MovieCacheDataSourceInterface {
-        return MovieCacheDataSource()
-    }
+abstract class CacheDataSourceModule {
+    @Binds
+    abstract fun bindMovieCacheDataSource(impl: MovieCacheDataSourceImpl): MovieCacheDataSource
 
-    @Singleton
-    @Provides
-    fun provideArtistCacheDataSource(): ArtistCacheDataSourceInterface {
-        return ArtistCacheDataSource()
-    }
+    @Binds
+    abstract fun bindArtistCacheDataSource(impl: ArtistCacheDataSourceImpl): ArtistCacheDataSource
 
-    @Singleton
-    @Provides
-    fun provideTvShowCacheDataSource(): TvShowCacheDataSourceInterface {
-        return TvShowCacheDataSource()
-    }
+    @Binds
+    abstract fun bindTvShowCacheDataSource(impl: TvShowCacheDataSourceImpl): TvShowCacheDataSource
 }

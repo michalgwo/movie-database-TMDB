@@ -1,9 +1,12 @@
 package com.example.moviedatabase.data.repos.tvshow.datasource
 
 import com.example.moviedatabase.data.model.tvshow.TvShow
-import com.example.moviedatabase.data.repos.tvshow.datasourceinterfaces.TvShowCacheDataSourceInterface
+import com.example.moviedatabase.data.repos.tvshow.datasourceinterfaces.TvShowCacheDataSource
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class TvShowCacheDataSource: TvShowCacheDataSourceInterface {
+@Singleton
+class TvShowCacheDataSourceImpl @Inject constructor(): TvShowCacheDataSource {
     private var tvShowList = ArrayList<TvShow>()
 
     override suspend fun getTvShows(): List<TvShow> {
