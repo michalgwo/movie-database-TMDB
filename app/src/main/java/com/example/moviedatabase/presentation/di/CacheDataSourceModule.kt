@@ -1,4 +1,4 @@
-package com.example.moviedatabase.presentation.di.core
+package com.example.moviedatabase.presentation.di
 
 import com.example.moviedatabase.data.repos.artist.datasource.ArtistCacheDataSourceImpl
 import com.example.moviedatabase.data.repos.artist.datasourceinterfaces.ArtistCacheDataSource
@@ -8,8 +8,11 @@ import com.example.moviedatabase.data.repos.tvshow.datasource.TvShowCacheDataSou
 import com.example.moviedatabase.data.repos.tvshow.datasourceinterfaces.TvShowCacheDataSource
 import dagger.Binds
 import dagger.Module
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 
 @Module
+@InstallIn(SingletonComponent::class)
 abstract class CacheDataSourceModule {
     @Binds
     abstract fun bindMovieCacheDataSource(impl: MovieCacheDataSourceImpl): MovieCacheDataSource

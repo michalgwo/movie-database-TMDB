@@ -10,7 +10,9 @@ import androidx.navigation.ui.setupWithNavController
 import com.example.moviedatabase.R
 import com.example.moviedatabase.databinding.ActivityHomeBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class HomeActivity : AppCompatActivity() {
     private lateinit var binding: ActivityHomeBinding
 

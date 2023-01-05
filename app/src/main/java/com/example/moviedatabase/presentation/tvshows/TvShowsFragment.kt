@@ -1,36 +1,25 @@
 package com.example.moviedatabase.presentation.tvshows
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.os.Bundle
 import android.view.*
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.moviedatabase.R
 import com.example.moviedatabase.data.model.tvshow.TvShow
 import com.example.moviedatabase.databinding.FragmentTvShowsBinding
-import com.example.moviedatabase.presentation.App
-import javax.inject.Inject
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class TvShowsFragment : Fragment() {
     private lateinit var binding: FragmentTvShowsBinding
     private lateinit var adapter: TvShowsAdapter
-    @Inject
-    lateinit var factory: TvShowsViewModelFactory
-    @Inject
-    lateinit var viewModel: TvShowsViewModel
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-
-        (requireContext().applicationContext as App)
-            .createTvShowSubcomponent(requireActivity())
-            .inject(this)
-    }
+    private val viewModel: TvShowsViewModel by hiltNavGraphViewModels(R.id.mobile_navigation)
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_tv_shows, container, false)

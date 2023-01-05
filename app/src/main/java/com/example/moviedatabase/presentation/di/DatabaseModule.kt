@@ -1,6 +1,6 @@
-package com.example.moviedatabase.presentation.di.core
+package com.example.moviedatabase.presentation.di
 
-import android.content.Context
+import android.app.Application
 import androidx.room.Room
 import com.example.moviedatabase.data.db.ArtistDao
 import com.example.moviedatabase.data.db.MovieDao
@@ -8,14 +8,17 @@ import com.example.moviedatabase.data.db.MoviesDb
 import com.example.moviedatabase.data.db.TvShowDao
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
 @Module
+@InstallIn(SingletonComponent::class)
 class DatabaseModule {
     @Singleton
     @Provides
-    fun provideDatabase(context: Context): MoviesDb {
-        return Room.databaseBuilder(context, MoviesDb::class.java, "moviesdb").build()
+    fun provideDatabase(application: Application): MoviesDb {
+        return Room.databaseBuilder(application.applicationContext, MoviesDb::class.java, "moviesdb").build()
     }
 
     @Singleton

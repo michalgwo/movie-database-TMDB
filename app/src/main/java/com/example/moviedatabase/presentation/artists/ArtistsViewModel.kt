@@ -4,8 +4,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
 import com.example.moviedatabase.domain.usecases.GetArtistsUseCase
 import com.example.moviedatabase.domain.usecases.UpdateArtistsUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class ArtistsViewModel(
+@HiltViewModel
+class ArtistsViewModel @Inject constructor(
     private val getArtistsUseCase: GetArtistsUseCase,
     private val updateArtistsUseCase: UpdateArtistsUseCase
 ) : ViewModel() {

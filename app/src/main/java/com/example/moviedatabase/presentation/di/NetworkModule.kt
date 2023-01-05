@@ -1,20 +1,23 @@
-package com.example.moviedatabase.presentation.di.core
+package com.example.moviedatabase.presentation.di
 
+import com.example.moviedatabase.BuildConfig
 import com.example.moviedatabase.data.api.TMDBService
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import javax.inject.Named
 import javax.inject.Singleton
 
 @Module
+@InstallIn(SingletonComponent::class)
 class NetworkModule {
     @Singleton
     @Provides
-    fun provideRetrofit(@Named("apiBaseUrl") baseUrl: String): Retrofit {
+    fun provideRetrofit(): Retrofit {
         return Retrofit.Builder()
-            .baseUrl(baseUrl)
+            .baseUrl(BuildConfig.API_BASE_URL)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }

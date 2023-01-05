@@ -1,39 +1,29 @@
 package com.example.moviedatabase.presentation.movies
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.os.Bundle
 import android.view.*
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.moviedatabase.R
 import com.example.moviedatabase.data.model.movie.Movie
 import com.example.moviedatabase.databinding.FragmentMoviesBinding
-import com.example.moviedatabase.presentation.App
-import javax.inject.Inject
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MoviesFragment : Fragment() {
     private lateinit var binding: FragmentMoviesBinding
     private lateinit var adapter: MoviesAdapter
-    @Inject
-    lateinit var factory: MoviesViewModelFactory
-    @Inject
-    lateinit var viewModel: MoviesViewModel
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-
-        (requireContext().applicationContext as App)
-            .createMovieSubcomponent(requireActivity())
-            .inject(this)
-    }
+    private val viewModel: MoviesViewModel by hiltNavGraphViewModels(R.id.mobile_navigation)
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_movies, container, false)
+
         initRecyclerView()
 
         return binding.root

@@ -1,36 +1,25 @@
 package com.example.moviedatabase.presentation.artists
 
 import android.annotation.SuppressLint
-import android.content.Context
 import android.os.Bundle
 import android.view.*
 import androidx.core.view.MenuHost
 import androidx.core.view.MenuProvider
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.moviedatabase.R
 import com.example.moviedatabase.data.model.artist.Artist
 import com.example.moviedatabase.databinding.FragmentArtistsBinding
-import com.example.moviedatabase.presentation.App
-import javax.inject.Inject
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ArtistsFragment : Fragment() {
     private lateinit var binding: FragmentArtistsBinding
     private lateinit var adapter: ArtistsAdapter
-    @Inject
-    lateinit var factory: ArtistsViewModelFactory
-    @Inject
-    lateinit var viewModel: ArtistsViewModel
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-
-        (requireContext().applicationContext as App)
-            .createArtistSubcomponent(requireActivity())
-            .inject(this)
-    }
+    private val viewModel: ArtistsViewModel by hiltNavGraphViewModels(R.id.mobile_navigation)
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
         binding = DataBindingUtil.inflate(inflater, R.layout.fragment_artists, container, false)
