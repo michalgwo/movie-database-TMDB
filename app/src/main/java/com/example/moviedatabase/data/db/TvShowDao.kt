@@ -9,7 +9,7 @@ import com.example.moviedatabase.data.model.tvshow.TvShow
 @Dao
 interface TvShowDao {
     @Insert(onConflict = REPLACE)
-    suspend fun saveTvShows(movies: List<TvShow>)
+    suspend fun saveTvShows(tvShows: List<TvShow>)
 
     @Query("DELETE FROM popular_tv_shows")
     suspend fun deleteAllTvShows()

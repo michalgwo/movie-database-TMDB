@@ -9,7 +9,7 @@ import com.example.moviedatabase.data.model.artist.Artist
 @Dao
 interface ArtistDao {
     @Insert(onConflict = REPLACE)
-    suspend fun saveArtists(movies: List<Artist>)
+    suspend fun saveArtists(artists: List<Artist>)
 
     @Query("DELETE FROM popular_artists")
     suspend fun deleteAllArtists()
