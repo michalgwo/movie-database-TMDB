@@ -7,5 +7,5 @@ import javax.inject.Inject
 
 @ViewModelScoped
 class UpdateArtistsUseCase @Inject constructor(private val repo: ArtistRepo) {
-    suspend fun execute(): List<Artist>? = repo.updateArtists()
+    suspend fun execute(): List<Artist> = repo.updateArtists()
 }

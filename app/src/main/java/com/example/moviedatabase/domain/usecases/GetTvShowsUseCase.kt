@@ -7,5 +7,5 @@ import javax.inject.Inject
 
 @ViewModelScoped
 class GetTvShowsUseCase @Inject constructor(private val repo: TvShowRepo) {
-    suspend fun execute(): List<TvShow>? = repo.getTvShows()
+    suspend fun execute(): List<TvShow> = repo.getTvShows()
 }
